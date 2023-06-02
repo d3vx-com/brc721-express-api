@@ -3,9 +3,8 @@
     "strict": true,
     "target": "es5",
     "outDir": "./dist",
-    "declaration": true,
-    "skipLibCheck": true,
     "module": "commonjs",
+    "noImplicitAny": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true
