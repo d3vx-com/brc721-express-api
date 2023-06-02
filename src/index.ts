@@ -9,6 +9,7 @@ import express from "express";
 import { inscriptionController } from "./inscriptions/inscription.controller";
 import { inscriptionSchema } from "./inscriptions/inscription.schema";
 import { inscriptionsController } from "./inscriptions/inscriptions.controller";
+import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import { validate } from "./validate.middleware";
 
@@ -30,6 +31,7 @@ const cache = apicache.options({
 app.use(cors());
 app.use(limiter);
 app.use(cache("1 minute"));
+app.use(morgan("tiny"));
 
 app.get("/collections/:id", collectionController);
 app.get("/collections", validate(collectionSchema), collectionsController);
