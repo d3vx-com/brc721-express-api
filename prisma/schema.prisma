@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model CollectionManifest {
+  blockHeight      Int
+  transactionIndex Int
+  raw              Json
+  maxSupply        Int?
+  maxPerAddress    Int?
+  maxBlockHeight   Int?
+  version          String
+  name             String
+  symbol           String
+  paymentAddress   String
+  signerPublicKey  String
+  inscriberAddress String
+  id               String   @id @unique
+  createdAt        DateTime @default(now())
+  reindexing       Boolean  @default(false)
+  updatedAt        DateTime @default(now())
+  position         Int?
+}
+
+model InscriptionManifest {
+  blockHeight         Int
+  transactionIndex    Int
+  position            Int?
+  price               Int?
+  raw                 Json
+  verificationErrors  Json?
+  inscriberAddress    String
+  version             String
+  collectionId        String
+  initialOwnerAddress String?
+  id                  String   @id @unique
+  valid               Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  reindexing          Boolean  @default(false)
+  updatedAt           DateTime @default(now())
+  metadata            Json?
+  revealWeight        Int      @default(0)
+  media               Json?
+
+  @@index([collectionId])
+}
+
+model QueueState {
+  id            String   @id @unique
+  height        Int      @default(0)
+  updatedAt     DateTime
+  version       Int      @default(0)
+  confirmations Int      @default(6)
+}
+
+model RevealManifest {
+  blockHeight        Int
+  transactionIndex   Int
+  weight             Int
+  raw                Json
+  verificationErrors Json?
+  inscriberAddress   String
+  metadataURL        String
+  version            String
+  collectionId       String
+  id                 String   @id @unique
+  valid              Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  reindexing         Boolean  @default(false)
+  updatedAt          DateTime @default(now())
+
+  @@index([collectionId])
+}
