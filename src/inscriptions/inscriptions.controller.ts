@@ -5,6 +5,8 @@ import { exclude } from "../exclude.util";
 import { inscriptionSchema } from "./inscription.schema";
 import set from "lodash/set";
 
+const INSCRIPTION_POSTFIX = "i0";
+
 export const inscriptionsController = async (req: Request, res: Response) => {
   const params = inscriptionSchema.cast(req.query);
 
@@ -17,6 +19,13 @@ export const inscriptionsController = async (req: Request, res: Response) => {
       collectionId: params.collectionId,
       inscriberAddress: params.inscriberAddress,
       initialOwnerAddress: params.initialOwnerAddress,
+      id: params.ids
+        ? {
+            in: params.ids
+              .split(",")
+              .filter((id) => id.endsWith(INSCRIPTION_POSTFIX)),
+          }
+        : undefined,
     },
     take: params.limit,
     skip: params.cursor ? 1 : 0,
