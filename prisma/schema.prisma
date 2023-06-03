@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -26,6 +27,8 @@ model CollectionManifest {
   reindexing       Boolean  @default(false)
   updatedAt        DateTime @default(now())
   position         Int?
+
+  @@fulltext([name, symbol])
 }
 
 model InscriptionManifest {
