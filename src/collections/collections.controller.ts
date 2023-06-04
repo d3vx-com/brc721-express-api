@@ -13,18 +13,20 @@ export const collectionsController = async (req: Request, res: Response) => {
       [params.order]: params.sort,
     },
     where: {
-      OR: [
-        {
-          name: {
-            contains: params.search,
-          },
-        },
-        {
-          symbol: {
-            contains: params.search,
-          },
-        },
-      ],
+      OR: params.search
+        ? [
+            {
+              name: {
+                contains: params.search,
+              },
+            },
+            {
+              symbol: {
+                contains: params.search,
+              },
+            },
+          ]
+        : undefined,
     },
     take: params.limit,
     skip: params.cursor ? 1 : 0,
