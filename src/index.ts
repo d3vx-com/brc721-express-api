@@ -19,10 +19,13 @@ import { verifyController } from "./bitcoin/verify.controller";
 const app = express();
 
 const limiter = rateLimit({
-  max: 60,
   windowMs: 60 * 1000,
   legacyHeaders: false,
   standardHeaders: true,
+  max: async (request) => {
+    if (/.*brc721.com?./.test(request.hostname)) return 0;
+    else return 120;
+  },
 });
 
 const cache = apicache.options({
