@@ -14,9 +14,9 @@ export const validate =
       let message = "Request schema validation failed";
       if (err instanceof Error) {
         message = err.message;
-        return res.status(500).json({ error: message });
+        return res.status(400).json({ error: message });
       }
-      return res.status(500).json({ error: message });
+      return res.status(400).json({ error: message });
     }
   };
 
@@ -32,8 +32,8 @@ export const validateBody =
       let message = "Request schema validation failed";
       if (err instanceof Error) {
         message = err.message;
-        return res.status(500).json({ error: message });
+        return res.status(400).json({ error: message });
       }
-      return res.status(500).json({ error: message });
+      return res.status(400).json({ error: message });
     }
   };
