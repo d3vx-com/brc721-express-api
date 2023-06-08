@@ -2,7 +2,6 @@ import axios, { AxiosError } from "axios";
 import { Request, Response } from "express";
 
 export const verifyController = async (req: Request, res: Response) => {
-  console.log("IN");
   const { address, signature, message } = req.body;
   const { data, status } = await axios({
     method: "POST",
