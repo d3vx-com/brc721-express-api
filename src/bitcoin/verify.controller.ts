@@ -14,7 +14,8 @@ export const verifyController = async (req: Request, res: Response) => {
       const status = err.response.status;
       return { data, status };
     }
-    return { data: null, status: 400 };
+
+    throw new Error("Unknown error occurred");
   });
 
   return res.status(status).json(data);
