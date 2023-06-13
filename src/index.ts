@@ -18,12 +18,21 @@ import { verifyController } from "./bitcoin/verify.controller";
 
 const app = express();
 
+const whitelist = [
+  /.*8ased.com/,
+  /.*brc721.com/,
+  /.*brc-721.pro/,
+  /.*brc721scan.io/,
+  /.*brclaunchpad.io/,
+];
+
 const limiter = rateLimit({
   windowMs: 60 * 1000,
   legacyHeaders: false,
   standardHeaders: true,
   max: async (request) => {
-    if (/.*brc721.com?./.test(request.hostname)) return 0;
+    const hostname = request.hostname;
+    if (whitelist.some((h) => h.test(hostname))) return 0;
     else return 120;
   },
 });
