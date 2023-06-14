@@ -19,11 +19,11 @@ import { verifyController } from "./bitcoin/verify.controller";
 const app = express();
 
 const whitelist = [
-  /.*8ased.com/,
-  /.*brc721.com/,
-  /.*brc-721.pro/,
-  /.*brc721scan.io/,
-  /.*brclaunchpad.io/,
+  /.*(\.|https:\/\/)8ased.com$/,
+  /.*(\.|https:\/\/)brc721.com$/,
+  /.*(\.|https:\/\/)brc-721.pro$/,
+  /.*(\.|https:\/\/)brc721scan.io$/,
+  /.*(\.|https:\/\/)brclaunchpad.io$/,
 ];
 
 const limiter = rateLimit({
@@ -49,10 +49,16 @@ const exclude = (path: string) => {
   };
 };
 
+morgan.token<Request>("host", function (req) {
+  return req.hostname;
+});
+
 app.use(cors());
 app.use(limiter);
-app.use(morgan("tiny"));
 app.use(cache("1 minute", exclude("/bitcoin")));
+app.use(
+  morgan(":method :url :status :host :res[content-length] - :response-time ms")
+);
 
 app.get("/collections/:id", collectionController);
 app.get("/collections", validate(collectionSchema), collectionsController);
