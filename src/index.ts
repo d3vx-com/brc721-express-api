@@ -50,7 +50,7 @@ const exclude = (path: string) => {
 };
 
 morgan.token<Request>("host", function (req) {
-  return req.hostname;
+  return req.headers.host;
 });
 
 app.use(cors());
